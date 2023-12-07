@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Shiyan Wu" />
+
+<meta name="date" content="2023-12-07" />
+
+<title>Function Help Document</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Function Help Document</h1>
+<h4 class="author">Shiyan Wu</h4>
+<h4 class="date">2023-12-07</h4>
+
+
+
+<div id="mifvma-method-in-r" class="section level2">
+<h2>MIFVMA Method in R</h2>
+<p><strong>MIFVMA方法简介</strong><br />
+由于数据产生方式的差异和统计口径的不同，采集到的数据有时频率不尽相同，而这些混频数据经过传统同频化处理往往会损失造成信息量的损失，MIDAS模型（Mixed
+Data
+sampling）则可以在保留频率差的原则下为模型的估计和预测带来效率的提升；然而，不同数据量或MIDAS模型滞后项的选取会为模型带来不确定性。为了克服这一不确定性，本函数基于向前验证的模型平均(FVMA,
+Forward-Validation Model
+Averaging)(ZHANG,2022)，基于连续响应变量建立线性MIDAS模型，对不同数据量和滞后项选取的模型施加权重选取准则以给定不同模型权重，并根据权重产生向后一步预测值。该方法及对应R函数简记为MIFVMA.</p>
+<p><strong>MIFVMA具体内容</strong><br />
+<strong>1.MIDAS设定</strong><br />
+假设给定低频连续响应变量<span class="math inline">\(Y_t\)</span>,<span class="math inline">\(X_t=\{X^{(m)}_{t-\frac{j-1}{m}},j=1,2,...k\}\)</span>表示在时间点<span class="math inline">\(t\)</span>与<span class="math inline">\(Y_t\)</span>相关的高频解释变量,其中<span class="math inline">\(m\)</span>是频率差，<span class="math inline">\(k\)</span>为最大滞后阶数。记<span class="math inline">\(G_t=\{(X_1, Y_1), \cdots, (X_{t-1}, Y_{t-1}), X_t
+\}\)</span>为到时间<span class="math inline">\(t\)</span>的一个可用信息集合,则使用似然函数最大化准则估计模型<br />
+<span class="math inline">\(\hat{\theta}=\prod_{t=1}^{{T-1}}f(Y_t|G_t,\theta).\)</span>，使用参数<span class="math inline">\(\hat{\theta}\)</span>对<span class="math inline">\(Y_t\)</span>估计可得误差项<span class="math inline">\(e_t\)</span><br />
+<strong>2.FVMA准则简介</strong><br />
+根据拟合模型使用数据量的不同和滞后阶数选取差异，假设有模型<span class="math inline">\(m=1, \cdots, M\)</span>且<span class="math inline">\(j=v\)</span>为向前验证准则中初始时间点，对于第<span class="math inline">\(m\)</span>个模型，从时间点<span class="math inline">\({T-T_{m}}\)</span>到时间点<span class="math inline">\(j-1\)</span>的数据作为训练集, 时间点<span class="math inline">\(j\)</span>的数据作为验证集得到误差项<span class="math inline">\(e_j\)</span>，重复上述拟合步骤直至<span class="math inline">\(j=T-1\)</span>，则可得残差向量<span class="math inline">\(\widetilde{\boldsymbol{e}}_{T-v}^{(m)}=\left(\widetilde{e}_{(m),
+v}, \cdots, \widetilde{e}_{(m),T-1}\right)^{\top}\)</span>.
+合并M个模型得预测误差矩阵<span class="math inline">\(\widetilde{\boldsymbol{e}}_{T-v}\)</span>.<br />
+则FVMA准则即为: <span class="math display">\[\hat w =
+\underset{w}{argmin}w^T\widetilde{\boldsymbol{e}}_{T-v}^T\widetilde{\boldsymbol{e}}_{T-v}w\]</span>
+<strong>3.模型平均一步预测</strong><br />
+可得<span class="math inline">\(Y_T\)</span>的模型平均预测为 <span class="math display">\[\hat{Y_T}(\hat w)=\sum_{m=1}^M\hat w_m\hat
+Y_{(m),T}\]</span> 其中<span class="math inline">\(\hat
+Y_{(m),T}\)</span>是第m个模型在T时刻的预测值。</p>
+<p><strong>MIFVMA参数</strong><br />
+MIFVMA(y,x,per,k)是实现上述过程的函数，其中y是低频连续响应变量（向量），X是高频解释变量（矩阵），<br />
+k是高频解释变量x中最大滞后阶数的选取（整数），即使用滞后k阶的解释变量<span class="math inline">\(X_t=\{X^{(m)}_{t-\frac{j-1}{m}},j=1,2,...k\}\)</span>拟合模型。<br />
+per用于选取初始时间点（浮点数），由于本函数中不同数据量分别设定为<span class="math inline">\(T_m=n,0.8n,0.6n,0.4n\)</span>,则per的选取即为选取初始时间点<span class="math inline">\(v=n-per\times minT_n\)</span>.</p>
+<p><strong>MIFVMA函数</strong><br />
+</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="cf">function</span>(y,x,per,k){   </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="co">#y为变量，x为混频数据,k是选取得最大滞后阶数</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  n<span class="ot">&lt;-</span><span class="fu">length</span>(y)<span class="sc">-</span><span class="dv">2</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  t2<span class="ot">&lt;-</span><span class="fl">0.8</span><span class="sc">*</span>n</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  t3<span class="ot">&lt;-</span><span class="fl">0.6</span><span class="sc">*</span>n</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  t4<span class="ot">&lt;-</span><span class="fl">0.4</span><span class="sc">*</span>n    <span class="co">#选取一般时间间隔，这里可以设置一个参数</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  tmin<span class="ot">&lt;-</span><span class="fu">min</span>(t2,t3,t4)</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  v<span class="ot">=</span>n<span class="sc">-</span>per<span class="sc">*</span>tmin</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>  e<span class="ot">&lt;-</span><span class="fu">list</span>(n<span class="sc">-</span>v)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> (v<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n){</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>    x_train1<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">cbind</span>(y[<span class="dv">1</span><span class="sc">:</span>(j<span class="dv">-1</span>)],       x[<span class="dv">1</span><span class="sc">:</span>(j<span class="dv">-1</span>)       ,<span class="dv">1</span><span class="sc">:</span>i]))</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>    x_train2<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">cbind</span>(y[(n<span class="sc">-</span>t2<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(j<span class="dv">-1</span>)],x[(n<span class="sc">-</span>t2<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(j<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>i]))</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>    x_train3<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">cbind</span>(y[(n<span class="sc">-</span>t3<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(j<span class="dv">-1</span>)],x[(n<span class="sc">-</span>t3<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(j<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>i]))</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>    x_train4<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">cbind</span>(y[(n<span class="sc">-</span>t4<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(j<span class="dv">-1</span>)],x[(n<span class="sc">-</span>t4<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>(j<span class="dv">-1</span>),<span class="dv">1</span><span class="sc">:</span>i]))</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>    x_test<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">cbind</span>(y[j],<span class="fu">t</span>(x[j,<span class="dv">1</span><span class="sc">:</span>i])))</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>    coef1<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[<span class="dv">2</span><span class="sc">:</span>j]       <span class="sc">~</span>x_train1[[i]],<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>))<span class="sc">$</span>coef)</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>    coef2<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[(n<span class="sc">-</span>t2<span class="sc">+</span><span class="dv">2</span>)<span class="sc">:</span>j]<span class="sc">~</span>x_train2[[i]],<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>))<span class="sc">$</span>coef)</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>    coef3<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[(n<span class="sc">-</span>t3<span class="sc">+</span><span class="dv">2</span>)<span class="sc">:</span>j]<span class="sc">~</span>x_train3[[i]],<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>))<span class="sc">$</span>coef)</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>    coef4<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[(n<span class="sc">-</span>t4<span class="sc">+</span><span class="dv">2</span>)<span class="sc">:</span>j]<span class="sc">~</span>x_train4[[i]],<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>))<span class="sc">$</span>coef)</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>    e[[j<span class="sc">-</span>v]]<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) y[(j<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,x_test[[i]])<span class="sc">%*%</span>coef1[[i]]))</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>                ,<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) y[(j<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,x_test[[i]])<span class="sc">%*%</span>coef2[[i]]))<span class="co">#使用j时刻的test数据拟合j+1时刻真实数据集</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>                ,<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) y[(j<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,x_test[[i]])<span class="sc">%*%</span>coef3[[i]]))</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>                ,<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) y[(j<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,x_test[[i]])<span class="sc">%*%</span>coef4[[i]])))</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>  } </span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>  </span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>  e_tlide<span class="ot">&lt;-</span><span class="fu">do.call</span>(rbind,e)</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>  s<span class="ot">&lt;-</span><span class="fu">t</span>(e_tlide)<span class="sc">%*%</span>e_tlide<span class="sc">/</span>(n<span class="sc">-</span>v)</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>  Dmat<span class="ot">&lt;-</span><span class="dv">2</span><span class="sc">*</span>s</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>  l<span class="ot">=</span><span class="fu">ncol</span>(s)</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>  dvec<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">0</span>,l)</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>  Amat<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">rbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>,l),<span class="fu">diag</span>(<span class="at">x=</span><span class="dv">1</span>,l,l),<span class="fu">diag</span>(<span class="at">x=</span><span class="sc">-</span><span class="dv">1</span>,l,l)))  </span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>  bvec<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">rep</span>(<span class="dv">0</span>,l),<span class="fu">rep</span>(<span class="sc">-</span><span class="dv">1</span>,l))</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>  </span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>  w_hat<span class="ot">&lt;-</span><span class="fu">solve.QP</span>(Dmat, dvec, Amat, bvec, <span class="at">meq=</span><span class="dv">1</span>)<span class="sc">$</span>solution   <span class="co">#FVMA权重</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  </span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  m.candi1<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[<span class="dv">2</span><span class="sc">:</span>(n<span class="sc">+</span><span class="dv">1</span>)]       <span class="sc">~</span><span class="fu">cbind</span>(y[<span class="dv">1</span><span class="sc">:</span>n],x[<span class="dv">1</span><span class="sc">:</span>n,<span class="dv">1</span><span class="sc">:</span>i]),<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>)))</span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>  m.candi2<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[(n<span class="sc">-</span>t2<span class="sc">+</span><span class="dv">2</span>)<span class="sc">:</span>(n<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">~</span><span class="fu">cbind</span>(y[(n<span class="sc">-</span>t2<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],x[(n<span class="sc">-</span>t2<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n,<span class="dv">1</span><span class="sc">:</span>i]),<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>)))</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>  m.candi3<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[(n<span class="sc">-</span>t3<span class="sc">+</span><span class="dv">2</span>)<span class="sc">:</span>(n<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">~</span><span class="fu">cbind</span>(y[(n<span class="sc">-</span>t3<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],x[(n<span class="sc">-</span>t3<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n,<span class="dv">1</span><span class="sc">:</span>i]),<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>)))</span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>  m.candi4<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">glm</span>(y[(n<span class="sc">-</span>t4<span class="sc">+</span><span class="dv">2</span>)<span class="sc">:</span>(n<span class="sc">+</span><span class="dv">1</span>)]<span class="sc">~</span><span class="fu">cbind</span>(y[(n<span class="sc">-</span>t4<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n],x[(n<span class="sc">-</span>t4<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n,<span class="dv">1</span><span class="sc">:</span>i]),<span class="at">family =</span> gaussian,<span class="at">control =</span> <span class="fu">list</span>(<span class="at">maxit=</span><span class="dv">200</span>)))</span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>  </span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>  x_pred<span class="ot">&lt;-</span><span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">cbind</span>(y[n<span class="sc">+</span><span class="dv">1</span>],<span class="fu">t</span>(x[n<span class="sc">+</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span>i])))  <span class="co">#候选模型list</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a>  y_hat_i<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k,  <span class="cf">function</span>(i) <span class="fu">c</span>(<span class="dv">1</span>,x_pred[[i]])<span class="sc">%*%</span>m.candi1[[i]]<span class="sc">$</span>coef))  <span class="co">#使用1:n的数据拟合,得到y_hat_n+1</span></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a>             ,<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">c</span>(<span class="dv">1</span>,x_pred[[i]])<span class="sc">%*%</span>m.candi2[[i]]<span class="sc">$</span>coef))</span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a>             ,<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">c</span>(<span class="dv">1</span>,x_pred[[i]])<span class="sc">%*%</span>m.candi3[[i]]<span class="sc">$</span>coef))</span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a>             ,<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>k, <span class="cf">function</span>(i) <span class="fu">c</span>(<span class="dv">1</span>,x_pred[[i]])<span class="sc">%*%</span>m.candi4[[i]]<span class="sc">$</span>coef)))</span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a>  y_hat_w_fvma<span class="ot">&lt;-</span><span class="fu">t</span>(y_hat_i)<span class="sc">%*%</span>w_hat  <span class="co">#FVMA加权平均后的y_hat</span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">prediction=</span>y_hat_w_fvma,<span class="at">weight=</span>w_hat))</span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>MIFVMA示例</strong><br />
+</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(SA23204176)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#数据生成：考虑Almon双指数MIDAS模型</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>theta1<span class="ot">=</span><span class="dv">7</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">4</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>theta2<span class="ot">=</span><span class="sc">-</span><span class="dv">6</span><span class="sc">*</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">200</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>l<span class="ot">=</span><span class="dv">4</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>x.sim<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">arima.sim</span>(<span class="at">model=</span><span class="fu">list</span>(<span class="at">ar=</span><span class="fl">0.5</span>), <span class="at">n=</span>l<span class="sc">*</span>(n<span class="sc">+</span><span class="dv">3</span>)), <span class="at">ncol=</span>l,<span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">cbind</span>(x.sim[<span class="dv">1</span><span class="sc">:</span>(n<span class="sc">+</span><span class="dv">2</span>),],x.sim[<span class="dv">2</span><span class="sc">:</span>(n<span class="sc">+</span><span class="dv">3</span>),])</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>beta<span class="ot">&lt;-</span><span class="fu">exp</span>(theta1<span class="sc">*</span><span class="fu">seq</span>(<span class="dv">2</span><span class="sc">*</span>l)<span class="sc">+</span>theta2<span class="sc">*</span><span class="fu">seq</span>(<span class="dv">2</span><span class="sc">*</span>l)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>(<span class="fu">exp</span>(theta1<span class="sc">*</span><span class="fu">seq</span>(<span class="dv">2</span><span class="sc">*</span>l)<span class="sc">+</span>theta2<span class="sc">*</span><span class="fu">seq</span>(<span class="dv">2</span><span class="sc">*</span>l)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">rep</span>(<span class="dv">0</span>,n<span class="sc">+</span><span class="dv">2</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>(n<span class="sc">+</span><span class="dv">2</span>)) {</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  y[i]<span class="ot">=</span><span class="fl">0.5</span><span class="sc">+-</span><span class="fl">0.2</span><span class="sc">*</span>y[i<span class="dv">-1</span>] <span class="sc">+</span> <span class="fl">1.7</span><span class="sc">*</span>x[i,]<span class="sc">%*%</span>beta</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>}</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#MIFVMA函数使用</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">MIFVMA</span>(<span class="at">y=</span>y,<span class="at">x=</span>x,<span class="at">per=</span><span class="fl">0.7</span>,<span class="at">k=</span><span class="dv">5</span>)</span></code></pre></div>
+<pre><code>## $prediction
+##         [,1]
+## [1,] 1.64581
+## 
+## $weight
+##  [1]  1.845065e-02  3.134931e-17  1.843953e-17 -1.469174e-15  4.960359e-01
+##  [6]  1.940767e-13  1.017344e-14  3.689880e-14  1.119380e-14  1.394776e-01
+## [11] -6.782681e-16  3.204694e-15  6.226789e-15  6.798027e-15  0.000000e+00
+## [16]  3.214953e-17 -3.241790e-16  1.897535e-16 -3.639402e-17  3.460359e-01</code></pre>
+</div>
+<div id="bootstrap-and-rayleigh-in-rcpp" class="section level2">
+<h2>Bootstrap and Rayleigh in Rcpp<br />
+</h2>
+<p>由于Rcpp在涉及大量循环或计算密集型任务时可以显著提高整体运行速度，该部分包含两个函数，分别使用Rcpp进行Bootstrap并估计、从Rayleigh分布中产生随机数，并与R函数比较其运行速度。<br />
+<strong>Bootstrap estimates in Rcpp</strong><br />
+1.Rcpp函数</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>NumericVector <span class="fu">boots</span>(NumericVector x,int B) {</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  NumericVector <span class="fu">thetastar</span>(B);</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  double theta <span class="ot">=</span> <span class="fu">mean</span>(x);</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  int n <span class="ot">=</span> <span class="fu">x.size</span>();</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="cf">for</span>(int <span class="at">b =</span> <span class="dv">0</span>; b <span class="sc">&lt;</span> B; b<span class="sc">++</span>) {</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    NumericVector xstar <span class="ot">=</span> Rcpp<span class="sc">::</span><span class="fu">sample</span>(x, n, true);</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    thetastar[b] <span class="ot">=</span> <span class="fu">mean</span>(xstar);</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  }</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  double bias <span class="ot">=</span> <span class="fu">mean</span>(thetastar) <span class="sc">-</span> theta;</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  double se_boot <span class="ot">=</span> <span class="fu">sd</span>(thetastar);</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  double se_samp <span class="ot">=</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n);</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  return NumericVector<span class="sc">::</span><span class="fu">create</span>(<span class="fu">Named</span>(<span class="st">&quot;bias&quot;</span>) <span class="ot">=</span> bias,</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>                               <span class="fu">Named</span>(<span class="st">&quot;se.boot&quot;</span>) <span class="ot">=</span> se_boot,</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>                               <span class="fu">Named</span>(<span class="st">&quot;se.samp&quot;</span>) <span class="ot">=</span> se_samp);</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>}</span></code></pre></div>
+<p>2.示例</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(Rcpp)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">library</span>(SA23204176)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span><span class="fu">boots</span>(data, <span class="dv">1000</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>bootstrap_results</span></code></pre></div>
+<pre><code>##       bias    se.boot    se.samp 
+## 0.00306766 0.09428901 0.09142491</code></pre>
+<p>3.比较运行时间<br />
+对应R函数为如下：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#R函数</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>bootsR <span class="ot">&lt;-</span> <span class="cf">function</span>(x,B){</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  thetastar <span class="ot">&lt;-</span> <span class="fu">numeric</span>(B)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="cf">for</span>(b <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    xstar <span class="ot">&lt;-</span> <span class="fu">sample</span>(x,<span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    thetastar[b] <span class="ot">&lt;-</span> <span class="fu">mean</span>(xstar)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  }</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="at">bias=</span><span class="fu">mean</span>(thetastar)<span class="sc">-</span>theta,<span class="at">se.boot=</span><span class="fu">sd</span>(thetastar),<span class="at">se.samp=</span><span class="fu">sd</span>(x)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">length</span>(x))))</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>}</span></code></pre></div>
+<p>使用microbenchmark对两函数的运行时间进行比较：</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>tm1 <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">R =</span> <span class="fu">bootsR</span>(data, <span class="dv">1000</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">boots</span>(data, <span class="dv">1000</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(tm1)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">expr</th>
+<th align="right">lq</th>
+<th align="right">median</th>
+<th align="right">uq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">R</td>
+<td align="right">14705.951</td>
+<td align="right">14823.252</td>
+<td align="right">15086.2505</td>
+</tr>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">937.551</td>
+<td align="right">948.051</td>
+<td align="right">959.9005</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rayleigh Random number generating</strong><br />
+已知Rayleigh分布为<span class="math inline">\(f(x)=\frac
+x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0,
+\sigma&gt;0\)</span>，且令提议分布函数<span class="math inline">\(g(\cdot|X)\)</span>为<span class="math inline">\(\chi^2(df=X)\)</span>的密度函数.<br />
+1.Rcpp函数</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co">#非用户水平函数</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>double <span class="fu">f</span>(double x, double sigma) {</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="sc">&lt;</span> <span class="dv">0</span>) return <span class="dv">0</span>;</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">return</span> (x <span class="sc">/</span> <span class="fu">pow</span>(sigma, <span class="dv">2</span>)) <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fu">pow</span>(x, <span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> <span class="fu">pow</span>(sigma, <span class="dv">2</span>)));</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>}</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#用户水平函数</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a> NumericVector <span class="fu">Rayleigh</span>(int m, double sigma, int b) {</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>   sigma <span class="ot">=</span> <span class="dv">4</span>;</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>   NumericVector <span class="fu">x</span>(m);</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>   x[<span class="dv">0</span>] <span class="ot">=</span> R<span class="sc">::</span><span class="fu">rchisq</span>(<span class="dv">1</span>); </span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>   int k <span class="ot">=</span> <span class="dv">0</span>;</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>   NumericVector u <span class="ot">=</span> <span class="fu">runif</span>(m);</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>   </span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>   Environment <span class="fu">stats</span>(<span class="st">&quot;package:stats&quot;</span>);</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>   Function dchisq <span class="ot">=</span> stats[<span class="st">&quot;dchisq&quot;</span>];</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>   Function rchisq <span class="ot">=</span> stats[<span class="st">&quot;rchisq&quot;</span>];</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>   </span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>   <span class="cf">for</span> (int <span class="at">i =</span> <span class="dv">1</span>; i <span class="sc">&lt;</span> m; <span class="sc">++</span>i) {</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>     double xt <span class="ot">=</span> x[i <span class="sc">-</span> <span class="dv">1</span>];</span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>     double y <span class="ot">=</span> R<span class="sc">::</span><span class="fu">rchisq</span>(<span class="dv">1</span>); </span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>     double num <span class="ot">=</span> <span class="fu">f</span>(y, sigma) <span class="sc">*</span> as<span class="sc">&lt;</span>double<span class="sc">&gt;</span>(<span class="fu">dchisq</span>(xt, y));</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>     double den <span class="ot">=</span> <span class="fu">f</span>(xt, sigma) <span class="sc">*</span> as<span class="sc">&lt;</span>double<span class="sc">&gt;</span>(<span class="fu">dchisq</span>(y, xt));</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>     </span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>     <span class="cf">if</span> (u[i] <span class="sc">&lt;=</span> num <span class="sc">/</span> den) {</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>       x[i] <span class="ot">=</span> y;</span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a>     } <span class="cf">else</span> {</span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a>       x[i] <span class="ot">=</span> xt;</span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a>       k<span class="sc">++</span>; <span class="sc">/</span><span class="er">/</span> y is rejected</span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a>     }</span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a>   }</span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a>   return x[<span class="fu">Range</span>(b, m <span class="sc">-</span> <span class="dv">1</span>)]; </span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a> }</span></code></pre></div>
+<p>2.示例</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>RayRandom<span class="ot">=</span><span class="fu">Rayleigh</span>(<span class="at">m=</span><span class="dv">2000</span>,<span class="at">sigma=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">100</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">head</span>(RayRandom)</span></code></pre></div>
+<pre><code>## [1] 2.458218 2.458218 2.458218 2.458218 3.792611 3.792611</code></pre>
+<p>3.比较运行时间<br />
+对应的R函数如下：</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x, sigma) {</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">any</span>(x <span class="sc">&lt;</span> <span class="dv">0</span>)) <span class="fu">return</span> (<span class="dv">0</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">stopifnot</span>(sigma <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">return</span>((x <span class="sc">/</span> sigma<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>x<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="dv">2</span><span class="sc">*</span>sigma<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>}</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>RayleighR <span class="ot">&lt;-</span> <span class="cf">function</span>(m,sigma,b){</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    sigma <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">numeric</span>(m)</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>    x[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">rchisq</span>(<span class="dv">1</span>, <span class="at">df=</span><span class="dv">1</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>    k <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    u <span class="ot">&lt;-</span> <span class="fu">runif</span>(m)</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>m) {</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>        xt <span class="ot">&lt;-</span> x[i<span class="dv">-1</span>]</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>        y <span class="ot">&lt;-</span> <span class="fu">rchisq</span>(<span class="dv">1</span>, <span class="at">df =</span> xt)</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>        num <span class="ot">&lt;-</span> <span class="fu">f</span>(y, sigma) <span class="sc">*</span> <span class="fu">dchisq</span>(xt, <span class="at">df =</span> y)</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>        den <span class="ot">&lt;-</span> <span class="fu">f</span>(xt, sigma) <span class="sc">*</span> <span class="fu">dchisq</span>(y, <span class="at">df =</span> xt)</span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>        <span class="cf">if</span> (u[i] <span class="sc">&lt;=</span> num<span class="sc">/</span>den){</span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>          x[i] <span class="ot">&lt;-</span> y</span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1"></a>          x[i] <span class="ot">&lt;-</span> xt</span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1"></a>          k <span class="ot">&lt;-</span> k<span class="sc">+</span><span class="dv">1</span>     <span class="co">#y is rejected</span></span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1"></a>        }</span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1"></a>    }</span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1"></a>    chain <span class="ot">&lt;-</span> x[(b<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>m]</span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1"></a>    <span class="fu">return</span>(chain)</span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1"></a>}</span></code></pre></div>
+<p>比较两者运行时间</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>tm2 <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="at">R =</span> <span class="fu">RayleighR</span>(<span class="fl">5e3</span>,<span class="dv">1</span>,<span class="fl">2e3</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">Rayleigh</span>(<span class="fl">5e3</span>,<span class="dv">1</span>,<span class="fl">2e3</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(tm2)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">expr</th>
+<th align="right">lq</th>
+<th align="right">median</th>
+<th align="right">uq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">R</td>
+<td align="right">47.53250</td>
+<td align="right">48.27725</td>
+<td align="right">50.84690</td>
+</tr>
+<tr class="even">
+<td align="left">C</td>
+<td align="right">12.82035</td>
+<td align="right">12.92725</td>
+<td align="right">13.22335</td>
+</tr>
+</tbody>
+</table>
+<p>经过比较，上述两个Rcpp函数运行时间相较于R函数都有显著降低。</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

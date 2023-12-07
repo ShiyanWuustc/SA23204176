@@ -1,0 +1,244 @@
+---
+title: "Function Help Document"
+author: "Shiyan Wu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Function Help Document}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+## MIFVMA Method in R
+**MIFVMA方法简介**\
+由于数据产生方式的差异和统计口径的不同，采集到的数据有时频率不尽相同，而这些混频数据经过传统同频化处理往往会损失造成信息量的损失，MIDAS模型（Mixed Data sampling）则可以在保留频率差的原则下为模型的估计和预测带来效率的提升；然而，不同数据量或MIDAS模型滞后项的选取会为模型带来不确定性。为了克服这一不确定性，本函数基于向前验证的模型平均(FVMA, Forward-Validation Model Averaging)(ZHANG,2022)，基于连续响应变量建立线性MIDAS模型，对不同数据量和滞后项选取的模型施加权重选取准则以给定不同模型权重，并根据权重产生向后一步预测值。该方法及对应R函数简记为MIFVMA.
+
+**MIFVMA具体内容**\
+**1.MIDAS设定**\
+假设给定低频连续响应变量$Y_t$,$X_t=\{X^{(m)}_{t-\frac{j-1}{m}},j=1,2,...k\}$表示在时间点$t$与$Y_t$相关的高频解释变量,其中$m$是频率差，$k$为最大滞后阶数。记$G_t=\{(X_1, Y_1), \cdots, (X_{t-1}, Y_{t-1}), X_t \}$为到时间$t$的一个可用信息集合,则使用似然函数最大化准则估计模型\
+$\hat{\theta}=\prod_{t=1}^{{T-1}}f(Y_t|G_t,\theta).$，使用参数$\hat{\theta}$对$Y_t$估计可得误差项$e_t$\
+**2.FVMA准则简介**\
+根据拟合模型使用数据量的不同和滞后阶数选取差异，假设有模型$m=1, \cdots, M$且$j=v$为向前验证准则中初始时间点，对于第$m$个模型，从时间点${T-T_{m}}$到时间点$j-1$的数据作为训练集, 时间点$j$的数据作为验证集得到误差项$e_j$，重复上述拟合步骤直至$j=T-1$，则可得残差向量$\widetilde{\boldsymbol{e}}_{T-v}^{(m)}=\left(\widetilde{e}_{(m), v},  \cdots,  \widetilde{e}_{(m),T-1}\right)^{\top}$. 合并M个模型得预测误差矩阵$\widetilde{\boldsymbol{e}}_{T-v}$.\
+则FVMA准则即为:
+$$\hat w = \underset{w}{argmin}w^T\widetilde{\boldsymbol{e}}_{T-v}^T\widetilde{\boldsymbol{e}}_{T-v}w$$
+**3.模型平均一步预测**\
+可得$Y_T$的模型平均预测为
+$$\hat{Y_T}(\hat w)=\sum_{m=1}^M\hat w_m\hat Y_{(m),T}$$
+其中$\hat Y_{(m),T}$是第m个模型在T时刻的预测值。
+
+**MIFVMA参数**\
+MIFVMA(y,x,per,k)是实现上述过程的函数，其中y是低频连续响应变量（向量），X是高频解释变量（矩阵），\
+k是高频解释变量x中最大滞后阶数的选取（整数），即使用滞后k阶的解释变量$X_t=\{X^{(m)}_{t-\frac{j-1}{m}},j=1,2,...k\}$拟合模型。\
+per用于选取初始时间点（浮点数），由于本函数中不同数据量分别设定为$T_m=n,0.8n,0.6n,0.4n$,则per的选取即为选取初始时间点$v=n-per\times minT_n$.
+
+**MIFVMA函数**\
+```{r,eval=FALSE}
+function(y,x,per,k){   
+  #y为变量，x为混频数据,k是选取得最大滞后阶数
+  n<-length(y)-2
+  t2<-0.8*n
+  t3<-0.6*n
+  t4<-0.4*n    #选取一般时间间隔，这里可以设置一个参数
+  tmin<-min(t2,t3,t4)
+  v=n-per*tmin
+  e<-list(n-v)
+  for(j in (v+1):n){
+    x_train1<-lapply(1:k, function(i) cbind(y[1:(j-1)],       x[1:(j-1)       ,1:i]))
+    x_train2<-lapply(1:k, function(i) cbind(y[(n-t2+1):(j-1)],x[(n-t2+1):(j-1),1:i]))
+    x_train3<-lapply(1:k, function(i) cbind(y[(n-t3+1):(j-1)],x[(n-t3+1):(j-1),1:i]))
+    x_train4<-lapply(1:k, function(i) cbind(y[(n-t4+1):(j-1)],x[(n-t4+1):(j-1),1:i]))
+    x_test<-lapply(1:k, function(i) cbind(y[j],t(x[j,1:i])))
+    coef1<-lapply(1:k, function(i) glm(y[2:j]       ~x_train1[[i]],family = gaussian,control = list(maxit=200))$coef)
+    coef2<-lapply(1:k, function(i) glm(y[(n-t2+2):j]~x_train2[[i]],family = gaussian,control = list(maxit=200))$coef)
+    coef3<-lapply(1:k, function(i) glm(y[(n-t3+2):j]~x_train3[[i]],family = gaussian,control = list(maxit=200))$coef)
+    coef4<-lapply(1:k, function(i) glm(y[(n-t4+2):j]~x_train4[[i]],family = gaussian,control = list(maxit=200))$coef)
+    e[[j-v]]<-c(unlist(lapply(1:k, function(i) y[(j+1)]-c(1,x_test[[i]])%*%coef1[[i]]))
+                ,unlist(lapply(1:k, function(i) y[(j+1)]-c(1,x_test[[i]])%*%coef2[[i]]))#使用j时刻的test数据拟合j+1时刻真实数据集
+                ,unlist(lapply(1:k, function(i) y[(j+1)]-c(1,x_test[[i]])%*%coef3[[i]]))
+                ,unlist(lapply(1:k, function(i) y[(j+1)]-c(1,x_test[[i]])%*%coef4[[i]])))
+  } 
+  
+  e_tlide<-do.call(rbind,e)
+  s<-t(e_tlide)%*%e_tlide/(n-v)
+  Dmat<-2*s
+  l=ncol(s)
+  dvec<-rep(0,l)
+  Amat<-t(rbind(rep(1,l),diag(x=1,l,l),diag(x=-1,l,l)))  
+  bvec<-c(1,rep(0,l),rep(-1,l))
+  
+  w_hat<-solve.QP(Dmat, dvec, Amat, bvec, meq=1)$solution   #FVMA权重
+  
+  m.candi1<-lapply(1:k, function(i) glm(y[2:(n+1)]       ~cbind(y[1:n],x[1:n,1:i]),family = gaussian,control = list(maxit=200)))
+  m.candi2<-lapply(1:k, function(i) glm(y[(n-t2+2):(n+1)]~cbind(y[(n-t2+1):n],x[(n-t2+1):n,1:i]),family = gaussian,control = list(maxit=200)))
+  m.candi3<-lapply(1:k, function(i) glm(y[(n-t3+2):(n+1)]~cbind(y[(n-t3+1):n],x[(n-t3+1):n,1:i]),family = gaussian,control = list(maxit=200)))
+  m.candi4<-lapply(1:k, function(i) glm(y[(n-t4+2):(n+1)]~cbind(y[(n-t4+1):n],x[(n-t4+1):n,1:i]),family = gaussian,control = list(maxit=200)))
+  
+  x_pred<-lapply(1:k, function(i) cbind(y[n+1],t(x[n+1,1:i])))  #候选模型list
+  y_hat_i<-c(unlist(lapply(1:k,  function(i) c(1,x_pred[[i]])%*%m.candi1[[i]]$coef))  #使用1:n的数据拟合,得到y_hat_n+1
+             ,unlist(lapply(1:k, function(i) c(1,x_pred[[i]])%*%m.candi2[[i]]$coef))
+             ,unlist(lapply(1:k, function(i) c(1,x_pred[[i]])%*%m.candi3[[i]]$coef))
+             ,unlist(lapply(1:k, function(i) c(1,x_pred[[i]])%*%m.candi4[[i]]$coef)))
+  y_hat_w_fvma<-t(y_hat_i)%*%w_hat  #FVMA加权平均后的y_hat
+  return(list(prediction=y_hat_w_fvma,weight=w_hat))
+}
+```
+**MIFVMA示例**\
+```{r}
+library(SA23204176)
+#数据生成：考虑Almon双指数MIDAS模型
+theta1=7*10^(-4)
+theta2=-6*10^(-3)
+n=200
+l=4
+x.sim<-matrix(arima.sim(model=list(ar=0.5), n=l*(n+3)), ncol=l,byrow = TRUE)
+x<-cbind(x.sim[1:(n+2),],x.sim[2:(n+3),])
+beta<-exp(theta1*seq(2*l)+theta2*seq(2*l)^2)/sum(exp(theta1*seq(2*l)+theta2*seq(2*l)^2))
+y=rep(0,n+2)
+for( i in 2:(n+2)) {
+  y[i]=0.5+-0.2*y[i-1] + 1.7*x[i,]%*%beta
+}
+#MIFVMA函数使用
+MIFVMA(y=y,x=x,per=0.7,k=5)
+```
+
+## Bootstrap and Rayleigh in Rcpp\
+由于Rcpp在涉及大量循环或计算密集型任务时可以显著提高整体运行速度，该部分包含两个函数，分别使用Rcpp进行Bootstrap并估计、从Rayleigh分布中产生随机数，并与R函数比较其运行速度。\
+**Bootstrap estimates in Rcpp**\
+1.Rcpp函数
+```{r,eval=FALSE}
+NumericVector boots(NumericVector x,int B) {
+  NumericVector thetastar(B);
+  double theta = mean(x);
+  int n = x.size();
+
+  for(int b = 0; b < B; b++) {
+    NumericVector xstar = Rcpp::sample(x, n, true);
+    thetastar[b] = mean(xstar);
+  }
+
+  double bias = mean(thetastar) - theta;
+  double se_boot = sd(thetastar);
+  double se_samp = sd(x) / sqrt(n);
+
+  return NumericVector::create(Named("bias") = bias,
+                               Named("se.boot") = se_boot,
+                               Named("se.samp") = se_samp);
+}
+```
+2.示例
+```{r,eval=TRUE}
+library(Rcpp)
+library(SA23204176)
+data <- rnorm(100)
+bootstrap_results <-boots(data, 1000)
+bootstrap_results
+```
+3.比较运行时间\
+对应R函数为如下：
+```{r,eval=FALSE}
+#R函数
+bootsR <- function(x,B){
+  thetastar <- numeric(B)
+  theta <- mean(x)
+  for(b in 1:B){
+    xstar <- sample(x,replace=TRUE)
+    thetastar[b] <- mean(xstar)
+  }
+  return(c(bias=mean(thetastar)-theta,se.boot=sd(thetastar),se.samp=sd(x)/sqrt(length(x))))
+}
+```
+使用microbenchmark对两函数的运行时间进行比较：
+```{r}
+library(microbenchmark)
+tm1 <- microbenchmark(
+  R = bootsR(data, 1000),
+  C = boots(data, 1000)
+)
+data <- rnorm(100)
+knitr::kable(summary(tm1)[,c(1,3,5,6)])
+```
+
+**Rayleigh Random number generating**\
+已知Rayleigh分布为$f(x)=\frac x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0, \sigma>0$，且令提议分布函数$g(\cdot|X)$为$\chi^2(df=X)$的密度函数.\
+1.Rcpp函数
+```{r,eval=FALSE}
+#非用户水平函数
+double f(double x, double sigma) {
+  if (x < 0) return 0;
+  return (x / pow(sigma, 2)) * exp(-pow(x, 2) / (2 * pow(sigma, 2)));
+}
+
+#用户水平函数
+ NumericVector Rayleigh(int m, double sigma, int b) {
+   sigma = 4;
+   NumericVector x(m);
+   x[0] = R::rchisq(1); 
+   int k = 0;
+   NumericVector u = runif(m);
+   
+   Environment stats("package:stats");
+   Function dchisq = stats["dchisq"];
+   Function rchisq = stats["rchisq"];
+   
+   for (int i = 1; i < m; ++i) {
+     double xt = x[i - 1];
+     double y = R::rchisq(1); 
+     double num = f(y, sigma) * as<double>(dchisq(xt, y));
+     double den = f(xt, sigma) * as<double>(dchisq(y, xt));
+     
+     if (u[i] <= num / den) {
+       x[i] = y;
+     } else {
+       x[i] = xt;
+       k++; // y is rejected
+     }
+   }
+   return x[Range(b, m - 1)]; 
+ }
+```
+
+2.示例
+```{r}
+RayRandom=Rayleigh(m=2000,sigma=1,b=100)
+head(RayRandom)
+```
+3.比较运行时间\
+对应的R函数如下：
+```{r,eval=FALSE}
+f <- function(x, sigma) {
+  if (any(x < 0)) return (0)
+  stopifnot(sigma > 0)
+  return((x / sigma^2) * exp(-x^2 / (2*sigma^2)))
+}
+RayleighR <- function(m,sigma,b){
+    sigma <- 4
+    x <- numeric(m)
+    x[1] <- rchisq(1, df=1)
+    k <- 0
+    u <- runif(m)
+
+    for (i in 2:m) {
+        xt <- x[i-1]
+        y <- rchisq(1, df = xt)
+        num <- f(y, sigma) * dchisq(xt, df = y)
+        den <- f(xt, sigma) * dchisq(y, df = xt)
+        if (u[i] <= num/den){
+          x[i] <- y
+        } else {
+          x[i] <- xt
+          k <- k+1     #y is rejected
+        }
+    }
+    chain <- x[(b+1):m]
+    return(chain)
+}
+```
+比较两者运行时间
+```{r}
+tm2 <- microbenchmark(
+  R = RayleighR(5e3,1,2e3),
+  C = Rayleigh(5e3,1,2e3)
+)
+knitr::kable(summary(tm2)[,c(1,3,5,6)])
+```
+经过比较，上述两个Rcpp函数运行时间相较于R函数都有显著降低。
+

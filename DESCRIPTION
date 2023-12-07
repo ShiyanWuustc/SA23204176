@@ -1,0 +1,17 @@
+Package: SA23204176
+Type: Package
+Title: ShiyanWu
+Version: 1.0
+Date: 2023-11-27
+Author: Shiyan Wu
+Maintainer: Shiyan Wu <ahuwsy@163.com>
+Description: MIFVMA, Bootstrap in Rcpp, Rayleigh in Rcpp.
+License: GPL (>= 2)
+Imports: Rcpp,quadprog,microbenchmark,stats,gcookbook,ggplot2,bootstrap,boot,DAAG,coda,Deriv
+LinkingTo: Rcpp
+RoxygenNote: 7.2.3
+Encoding: UTF-8
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+URL: http://github.com/ShiyanWuustc/SA23204176
+BugReports: http://github.com/ShiyanWuustc/SA23204176/issues
