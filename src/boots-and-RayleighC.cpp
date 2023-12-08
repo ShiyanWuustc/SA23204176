@@ -53,7 +53,6 @@ double f(double x, double sigma) {
 //' @export
 // [[Rcpp::export]]
 NumericVector Rayleigh(int m, double sigma, int b) {
-  sigma = 4;
   NumericVector x(m);
   x[0] = R::rchisq(1); 
   int k = 0;

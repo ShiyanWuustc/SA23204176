@@ -122,7 +122,6 @@ knitr::kable(summary(tm1)[,c(1,3,5,6)])
 #  
 #  #用户水平函数
 #   NumericVector Rayleigh(int m, double sigma, int b) {
-#     sigma = 4;
 #     NumericVector x(m);
 #     x[0] = R::rchisq(1);
 #     int k = 0;
@@ -150,7 +149,7 @@ knitr::kable(summary(tm1)[,c(1,3,5,6)])
 
 ## -----------------------------------------------------------------------------
 RayRandom=Rayleigh(m=2000,sigma=1,b=100)
-head(RayRandom)
+RayRandom[1:50]
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  f <- function(x, sigma) {
@@ -159,7 +158,6 @@ head(RayRandom)
 #    return((x / sigma^2) * exp(-x^2 / (2*sigma^2)))
 #  }
 #  RayleighR <- function(m,sigma,b){
-#      sigma <- 4
 #      x <- numeric(m)
 #      x[1] <- rchisq(1, df=1)
 #      k <- 0

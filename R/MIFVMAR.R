@@ -111,7 +111,6 @@ f <- function(x, sigma) {
 #' }
 #' @export
 RayleighR <- function(m,sigma,b){
-  sigma <- 4
   x <- numeric(m)
   x[1] <- rchisq(1, df=1)
   k <- 0
