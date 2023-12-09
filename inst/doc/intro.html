@@ -12,7 +12,7 @@
 
 <meta name="author" content="Shiyan Wu" />
 
-<meta name="date" content="2023-12-08" />
+<meta name="date" content="2023-12-09" />
 
 <title>Function Help Document</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Function Help Document</h1>
 <h4 class="author">Shiyan Wu</h4>
-<h4 class="date">2023-12-08</h4>
+<h4 class="date">2023-12-09</h4>
 
 
 
@@ -448,13 +448,13 @@ per用于选取初始时间点（浮点数），由于本函数中不同数据�
 ## [11] -6.782681e-16  3.204694e-15  6.226789e-15  6.798027e-15  0.000000e+00
 ## [16]  3.214953e-17 -3.241790e-16  1.897535e-16 -3.639402e-17  3.460359e-01</code></pre>
 </div>
-<div id="bootstrap-and-rayleigh-in-rcpp" class="section level2">
-<h2>Bootstrap and Rayleigh in Rcpp<br />
+<div id="bootstrap-and-mcmc-m-h-in-rcpp" class="section level2">
+<h2>Bootstrap and MCMC M-H in Rcpp<br />
 </h2>
-<p>由于Rcpp在涉及大量循环或计算密集型任务时可以显著提高整体运行速度，该部分包含两个函数，分别使用Rcpp进行Bootstrap并估计、从Rayleigh分布中产生随机数，并与R函数比较其运行速度。<br />
-<strong>Bootstrap estimates in Rcpp</strong><br />
+<p>由于Rcpp在涉及大量循环或计算密集型任务时可以显著提高整体运行速度，该部分包含两个函数，分别使用Rcpp进行Bootstrap并估计、MCMC中M-H法从Rayleigh分布中产生随机数，并与R函数比较其运行速度。<br />
+<strong>Bootstrap</strong><br />
 1.Rcpp函数</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>NumericVector <span class="fu">boots</span>(NumericVector x,int B) {</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>NumericVector <span class="fu">bootsC</span>(NumericVector x,int B) {</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  NumericVector <span class="fu">thetastar</span>(B);</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  double theta <span class="ot">=</span> <span class="fu">mean</span>(x);</span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  int n <span class="ot">=</span> <span class="fu">x.size</span>();</span>
@@ -476,7 +476,7 @@ per用于选取初始时间点（浮点数），由于本函数中不同数据�
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(Rcpp)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">library</span>(SA23204176)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span><span class="fu">boots</span>(data, <span class="dv">1000</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>bootstrap_results <span class="ot">&lt;-</span><span class="fu">bootsC</span>(data, <span class="dv">1000</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>bootstrap_results</span></code></pre></div>
 <pre><code>##       bias    se.boot    se.samp 
 ## 0.00306766 0.09428901 0.09142491</code></pre>
@@ -496,7 +496,7 @@ per用于选取初始时间点（浮点数），由于本函数中不同数据�
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(microbenchmark)</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>tm1 <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">R =</span> <span class="fu">bootsR</span>(data, <span class="dv">1000</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">boots</span>(data, <span class="dv">1000</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">bootsC</span>(data, <span class="dv">1000</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>)</span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(tm1)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</span></code></pre></div>
@@ -512,19 +512,19 @@ per用于选取初始时间点（浮点数），由于本函数中不同数据�
 <tbody>
 <tr class="odd">
 <td align="left">R</td>
-<td align="right">16.08660</td>
-<td align="right">16.52240</td>
-<td align="right">16.75425</td>
+<td align="right">15.435001</td>
+<td align="right">16.282851</td>
+<td align="right">16.504001</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
-<td align="right">2.36795</td>
-<td align="right">2.50025</td>
-<td align="right">2.57975</td>
+<td align="right">2.311602</td>
+<td align="right">2.435852</td>
+<td align="right">2.517801</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Rayleigh Random number generating</strong><br />
+<p><strong>MCMC M-H</strong><br />
 已知Rayleigh分布为<span class="math inline">\(f(x)=\frac
 x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0,
 \sigma&gt;0\)</span>，且令提议分布函数<span class="math inline">\(g(\cdot|X)\)</span>为<span class="math inline">\(\chi^2(df=X)\)</span>的密度函数.<br />
@@ -536,7 +536,7 @@ x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0,
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>}</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#用户水平函数</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a> NumericVector <span class="fu">Rayleigh</span>(int m, double sigma, int b) {</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a> NumericVector <span class="fu">RayleighC</span>(int m, double sigma, int b) {</span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>   NumericVector <span class="fu">x</span>(m);</span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>   x[<span class="dv">0</span>] <span class="ot">=</span> R<span class="sc">::</span><span class="fu">rchisq</span>(<span class="dv">1</span>); </span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>   int k <span class="ot">=</span> <span class="dv">0</span>;</span>
@@ -562,7 +562,7 @@ x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0,
 <span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a>   return x[<span class="fu">Range</span>(b, m <span class="sc">-</span> <span class="dv">1</span>)]; </span>
 <span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a> }</span></code></pre></div>
 <p>2.示例</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>RayRandom<span class="ot">=</span><span class="fu">Rayleigh</span>(<span class="at">m=</span><span class="dv">2000</span>,<span class="at">sigma=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">100</span>)</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>RayRandom<span class="ot">=</span><span class="fu">RayleighC</span>(<span class="at">m=</span><span class="dv">2000</span>,<span class="at">sigma=</span><span class="dv">1</span>,<span class="at">b=</span><span class="dv">100</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>RayRandom[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>]</span></code></pre></div>
 <pre><code>##  [1] 2.4582179 1.5439385 1.5439385 1.5439385 1.5439385 1.5439385 1.5439385
 ##  [8] 1.5439385 1.5439385 1.5439385 1.5439385 1.5439385 1.5439385 1.5439385
@@ -603,7 +603,7 @@ x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0,
 <p>比较两者运行时间</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>tm2 <span class="ot">&lt;-</span> <span class="fu">microbenchmark</span>(</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="at">R =</span> <span class="fu">RayleighR</span>(<span class="fl">5e3</span>,<span class="dv">1</span>,<span class="fl">2e3</span>),</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">Rayleigh</span>(<span class="fl">5e3</span>,<span class="dv">1</span>,<span class="fl">2e3</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">RayleighC</span>(<span class="fl">5e3</span>,<span class="dv">1</span>,<span class="fl">2e3</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>)</span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(tm2)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>)])</span></code></pre></div>
 <table>
@@ -618,15 +618,15 @@ x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0,
 <tbody>
 <tr class="odd">
 <td align="left">R</td>
-<td align="right">47.75705</td>
-<td align="right">48.86510</td>
-<td align="right">51.46625</td>
+<td align="right">48.5754</td>
+<td align="right">50.03590</td>
+<td align="right">52.6506</td>
 </tr>
 <tr class="even">
 <td align="left">C</td>
-<td align="right">14.23585</td>
-<td align="right">14.38335</td>
-<td align="right">14.68365</td>
+<td align="right">14.1512</td>
+<td align="right">14.32295</td>
+<td align="right">15.2730</td>
 </tr>
 </tbody>
 </table>

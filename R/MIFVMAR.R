@@ -98,9 +98,9 @@ f <- function(x, sigma) {
   return((x / sigma^2) * exp(-x^2 / (2*sigma^2)))
 }
 
-#' @title Rayleigh Random number generating in R
-#' @name RayleighR
-#' @description RayleighR in R used for comparing the computation time with Rcpp.
+#' @title Metropolis-Hastings sampler generating random number of Rayleigh distribution in R
+#' @name MCMCMHR
+#' @description Metropolis-Hastings sampler generates random number of Rayleigh distribution in R used for comparing the computation time with Rcpp.
 #' @param m sample size
 #' @param sigma the parameter of Rayleigh distribution 
 #' @param b burn-in size
@@ -140,13 +140,13 @@ RayleighR <- function(m,sigma,b){
 #' data <- rnorm(100)
 #' tm1 <- microbenchmark::microbenchmark(
 #'   R = bootsR(data, 1000),
-#'   C = boots(data, 1000)
+#'   C = bootsC(data, 1000)
 #' )
 #' print(summary(tm1)[,c(1,3,5,6)])
 #' 
 #' tm2 <- microbenchmark::microbenchmark(
 #'   R = RayleighR(5e3,1,2e3),
-#'   C = Rayleigh(5e3,1,2e3)
+#'   C = RayleighC(5e3,1,2e3)
 #' )
 #' print(summary(tm2)[,c(1,3,5,6)])
 #' }

@@ -100,12 +100,12 @@ for( i in 2:(n+2)) {
 MIFVMA(y=y,x=x,per=0.7,k=5)
 ```
 
-## Bootstrap and Rayleigh in Rcpp\
-由于Rcpp在涉及大量循环或计算密集型任务时可以显著提高整体运行速度，该部分包含两个函数，分别使用Rcpp进行Bootstrap并估计、从Rayleigh分布中产生随机数，并与R函数比较其运行速度。\
-**Bootstrap estimates in Rcpp**\
+## Bootstrap and MCMC M-H in Rcpp\
+由于Rcpp在涉及大量循环或计算密集型任务时可以显著提高整体运行速度，该部分包含两个函数，分别使用Rcpp进行Bootstrap并估计、MCMC中M-H法从Rayleigh分布中产生随机数，并与R函数比较其运行速度。\
+**Bootstrap**\
 1.Rcpp函数
 ```{r,eval=FALSE}
-NumericVector boots(NumericVector x,int B) {
+NumericVector bootsC(NumericVector x,int B) {
   NumericVector thetastar(B);
   double theta = mean(x);
   int n = x.size();
@@ -129,7 +129,7 @@ NumericVector boots(NumericVector x,int B) {
 library(Rcpp)
 library(SA23204176)
 data <- rnorm(100)
-bootstrap_results <-boots(data, 1000)
+bootstrap_results <-bootsC(data, 1000)
 bootstrap_results
 ```
 3.比较运行时间\
@@ -151,13 +151,13 @@ bootsR <- function(x,B){
 library(microbenchmark)
 tm1 <- microbenchmark(
   R = bootsR(data, 1000),
-  C = boots(data, 1000)
+  C = bootsC(data, 1000)
 )
 data <- rnorm(100)
 knitr::kable(summary(tm1)[,c(1,3,5,6)])
 ```
 
-**Rayleigh Random number generating**\
+**MCMC M-H**\
 已知Rayleigh分布为$f(x)=\frac x{\sigma^2}e^{-x^2/(2\sigma^2)},\quad x\geq 0, \sigma>0$，且令提议分布函数$g(\cdot|X)$为$\chi^2(df=X)$的密度函数.\
 1.Rcpp函数
 ```{r,eval=FALSE}
@@ -168,7 +168,7 @@ double f(double x, double sigma) {
 }
 
 #用户水平函数
- NumericVector Rayleigh(int m, double sigma, int b) {
+ NumericVector RayleighC(int m, double sigma, int b) {
    NumericVector x(m);
    x[0] = R::rchisq(1); 
    int k = 0;
@@ -197,7 +197,7 @@ double f(double x, double sigma) {
 
 2.示例
 ```{r}
-RayRandom=Rayleigh(m=2000,sigma=1,b=100)
+RayRandom=RayleighC(m=2000,sigma=1,b=100)
 RayRandom[1:50]
 ```
 3.比较运行时间\
@@ -234,7 +234,7 @@ RayleighR <- function(m,sigma,b){
 ```{r}
 tm2 <- microbenchmark(
   R = RayleighR(5e3,1,2e3),
-  C = Rayleigh(5e3,1,2e3)
+  C = RayleighC(5e3,1,2e3)
 )
 knitr::kable(summary(tm2)[,c(1,3,5,6)])
 ```

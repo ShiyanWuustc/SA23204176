@@ -66,7 +66,7 @@ for( i in 2:(n+2)) {
 MIFVMA(y=y,x=x,per=0.7,k=5)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  NumericVector boots(NumericVector x,int B) {
+#  NumericVector bootsC(NumericVector x,int B) {
 #    NumericVector thetastar(B);
 #    double theta = mean(x);
 #    int n = x.size();
@@ -89,7 +89,7 @@ MIFVMA(y=y,x=x,per=0.7,k=5)
 library(Rcpp)
 library(SA23204176)
 data <- rnorm(100)
-bootstrap_results <-boots(data, 1000)
+bootstrap_results <-bootsC(data, 1000)
 bootstrap_results
 
 ## ----eval=FALSE---------------------------------------------------------------
@@ -108,7 +108,7 @@ bootstrap_results
 library(microbenchmark)
 tm1 <- microbenchmark(
   R = bootsR(data, 1000),
-  C = boots(data, 1000)
+  C = bootsC(data, 1000)
 )
 data <- rnorm(100)
 knitr::kable(summary(tm1)[,c(1,3,5,6)])
@@ -121,7 +121,7 @@ knitr::kable(summary(tm1)[,c(1,3,5,6)])
 #  }
 #  
 #  #用户水平函数
-#   NumericVector Rayleigh(int m, double sigma, int b) {
+#   NumericVector RayleighC(int m, double sigma, int b) {
 #     NumericVector x(m);
 #     x[0] = R::rchisq(1);
 #     int k = 0;
@@ -148,7 +148,7 @@ knitr::kable(summary(tm1)[,c(1,3,5,6)])
 #   }
 
 ## -----------------------------------------------------------------------------
-RayRandom=Rayleigh(m=2000,sigma=1,b=100)
+RayRandom=RayleighC(m=2000,sigma=1,b=100)
 RayRandom[1:50]
 
 ## ----eval=FALSE---------------------------------------------------------------
@@ -182,7 +182,7 @@ RayRandom[1:50]
 ## -----------------------------------------------------------------------------
 tm2 <- microbenchmark(
   R = RayleighR(5e3,1,2e3),
-  C = Rayleigh(5e3,1,2e3)
+  C = RayleighC(5e3,1,2e3)
 )
 knitr::kable(summary(tm2)[,c(1,3,5,6)])
 

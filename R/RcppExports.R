@@ -2,34 +2,34 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @title Bootstrap in Rcpp
-#' @name bootsC
+#' @name BootstrapC
 #' @description The bootstrap in Rcpp which can reduce the computation time largely when comparing with R.
 #' @param x Data
-#' @param B the sampling time
+#' @param B the sampling times
 #' @return a list of Bootstrap estimator
 #' @examples
 #' \dontrun{
 #' data <- rnorm(100)
-#' bootstrap_results <- boots(data, 1000)
+#' bootstrap_results <- bootsC(data, 1000)
 #' }
 #' @export
-boots <- function(x, B) {
-    .Call('_SA23204176_boots', PACKAGE = 'SA23204176', x, B)
+bootsC <- function(x, B) {
+    .Call('_SA23204176_bootsC', PACKAGE = 'SA23204176', x, B)
 }
 
-#' @title Rayleigh distribution random number
-#' @name RayleighC
-#' @description Generate random numbers from the Rayleigh distribution in Rcpp which can reduce the computation time largely when comparing with R.
+#' @title MCMC Metropolis-Hastings sampler generating random number of Rayleigh distribution in Rcpp
+#' @name MCMCMHC
+#' @description Metropolis-Hastings sampler generates random numbers from the Rayleigh distribution in Rcpp which can reduce the computation time largely when comparing with R.
 #' @param m random numbers size
 #' @param sigma Rayleigh distribution's parameter
 #' @param b burn-in size
 #' @return a random sample from Rayleigh distribution
 #' @examples
 #' \dontrun{
-#' RayRandom=Rayleigh(m=2000,sigma=4,b=100)
+#' RayRandom=RayleighC(m=2000,sigma=4,b=100)
 #' }
 #' @export
-Rayleigh <- function(m, sigma, b) {
-    .Call('_SA23204176_Rayleigh', PACKAGE = 'SA23204176', m, sigma, b)
+RayleighC <- function(m, sigma, b) {
+    .Call('_SA23204176_RayleighC', PACKAGE = 'SA23204176', m, sigma, b)
 }
 
