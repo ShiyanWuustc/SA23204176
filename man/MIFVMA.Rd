@@ -23,16 +23,17 @@ Using forward-validation model averaging method when given continuous mixed data
 }
 \examples{
 \dontrun{
-   theta1=7*10^(-4)
-   theta2=-6*10^(-3)
-   n=200
-   x.sim<-matrix(arima.sim(model=list(ar=0.5), n=k*(n+3)), ncol=k,byrow = TRUE)
-   x<-cbind(x.sim[1:(n+2),],x.sim[2:(n+3),])
-   beta<-exp(theta1*seq(2*k)+theta2*seq(2*k)^2)/sum(exp(theta1*seq(2*k)+theta2*seq(2*k)^2))
-   y=rep(0,n+2)
-   for( i in 2:(n+2)) {
-     y[i]=0.5+-0.2*y[i-1] + 1.7*x[i,]\%*\%beta
-   }
-   MIFVMA(y=y,x=x,per=0.7,k=5)
+  theta1=7*10^(-4)
+  theta2=-6*10^(-3)
+  n=200
+  l=4
+  x.sim<-matrix(arima.sim(model=list(ar=0.5), n=l*(n+3)), ncol=l,byrow = TRUE)
+  x<-cbind(x.sim[1:(n+2),],x.sim[2:(n+3),])
+  beta<-exp(theta1*seq(2*l)+theta2*seq(2*l)^2)/sum(exp(theta1*seq(2*l)+theta2*seq(2*l)^2))
+  y=rep(0,n+2)
+  for( i in 2:(n+2)) {
+    y[i]=0.5+-0.2*y[i-1] + 1.7*x[i,]\%*\%beta
+  }
+  MIFVMA(y=y,x=x,per=0.7,k=5)
 }
 }

@@ -2315,12 +2315,12 @@ function “microbenchmark”.</p>
 <pre><code>## Warning: package &#39;microbenchmark&#39; was built under R version 4.3.2</code></pre>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">microbenchmark</span>(<span class="fu">R</span>(a,b,n,N,burn)), <span class="fu">microbenchmark</span>(<span class="fu">rcpp</span>(a,b,n,N,burn))) <span class="co">#computation time</span></span></code></pre></div>
 <pre><code>## Unit: milliseconds
-##                    expr       min        lq      mean    median        uq
-##     R(a, b, n, N, burn) 31.839501 41.383550 47.578776 46.570751 48.714051
-##  rcpp(a, b, n, N, burn)  2.377802  2.426201  2.469203  2.459302  2.490801
-##        max neval
-##  91.664401   100
-##   3.637001   100</code></pre>
+##                    expr     min       lq     mean   median       uq     max
+##     R(a, b, n, N, burn) 33.8142 44.43595 49.67976 47.94365 49.79410 98.2697
+##  rcpp(a, b, n, N, burn)  3.4706  3.53060  3.62823  3.55775  3.67385  4.9845
+##  neval
+##    100
+##    100</code></pre>
 <p>From the table, we can conclude that the Rcpp function can reduce the
 computation time largely.</p>
 </div>
